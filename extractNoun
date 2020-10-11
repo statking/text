@@ -1,0 +1,31 @@
+#명사 추출 함수
+ko_words <- function(doc) {
+  d <- as.character(doc)
+  pos <- unlist(SimplePos22(d))
+  
+  extracted <- str_match(pos, '([가-힣]+)/[N][A-Z]')
+  
+  keyword <- extracted[, 2]
+  keyword[!is.na(keyword)]
+}
+
+
+texts <- data %>%
+  str_replace_all(pattern="\r", replacement="") %>%
+  str_replace_all(pattern="\n", replacement=" ") %>%
+  str_replace_all(pattern="[[:punct:]]", replacement=" ") %>%
+  str_replace_all(pattern="[ㄱ-ㅎㅏ-ㅣ]+", replacement="") %>%
+  str_replace_all(pattern="/", replacement=" ") %>%
+  str_trim(side="both")
+
+texts <- texts[texts != ""]
+
+pos <- Map(ko_words, texts)
+
+
+
+#corpus 데이터 만들기
+corpus <- VCorpus(VectorSource(pos))
+
+#corpus 내용 확인
+corpus[[1]]$content
