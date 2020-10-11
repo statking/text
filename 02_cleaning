@@ -1,0 +1,43 @@
+##### 전처리 #####
+#숫자 모두 삭제
+corpus.pre <- tm_map(corpus, removeNumbers)
+
+modify<-read.xlsx("modify.xlsx", sheetIndex=1, encoding='UTF-8')
+
+stop<-modify$stop
+modified<-modify$modify
+
+#
+function.substitute <- function(obj, old, new){
+  sub.obj<-tm_map(obj, content_transformer(function(x, pattern) gsub(pattern, new, x)), old)
+  sub.obj
+}
+
+
+for(i in 1:length(stop)){
+  corpus.pre<-function.substitute(corpus.pre, stop[i], modified)
+}
+
+
+#특수기호 처리
+#corpus.pre<-function.substitute(corpus.pre, "[[:lower:]]","")
+#corpus.pre<-function.substitute(corpus.pre, "[[:upper:]]","")
+corpus.pre<-function.substitute(corpus.pre, ","," ")
+corpus.pre<-function.substitute(corpus.pre, "\\(","")
+corpus.pre<-function.substitute(corpus.pre, "\\)","")
+corpus.pre<-function.substitute(corpus.pre, "'","")
+corpus.pre<-function.substitute(corpus.pre, "&","")
+corpus.pre<-function.substitute(corpus.pre, "・","")
+corpus.pre<-function.substitute(corpus.pre, "㈜","")
+corpus.pre<-function.substitute(corpus.pre, "것","")
+corpus.pre<-function.substitute(corpus.pre, "봉사\\S*","봉사")
+corpus.pre<-function.substitute(corpus.pre, "생각\\S*","생각")
+
+
+#특수문자 제거
+corpus.pre<-tm_map(corpus.pre, removePunctuation)
+
+#공백 처리
+corpus.pre<-tm_map(corpus.pre, stripWhitespace)
+
+corpus.pre[[1]]$content
