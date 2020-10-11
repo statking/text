@@ -1,3 +1,11 @@
+install.packages("stringr")
+install.packages("tm")
+install.packages("dplyr")
+
+library(stringr)
+library(tm)
+library(dplyr)
+
 #명사 추출 함수
 ko_words <- function(doc) {
   d <- as.character(doc)
