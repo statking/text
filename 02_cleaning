@@ -28,10 +28,6 @@ corpus.pre<-function.substitute(corpus.pre, "\\)","")
 corpus.pre<-function.substitute(corpus.pre, "'","")
 corpus.pre<-function.substitute(corpus.pre, "&","")
 corpus.pre<-function.substitute(corpus.pre, "・","")
-corpus.pre<-function.substitute(corpus.pre, "㈜","")
-corpus.pre<-function.substitute(corpus.pre, "것","")
-corpus.pre<-function.substitute(corpus.pre, "봉사\\S*","봉사")
-corpus.pre<-function.substitute(corpus.pre, "생각\\S*","생각")
 
 
 #특수문자 제거
