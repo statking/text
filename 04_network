@@ -1,0 +1,28 @@
+#########################
+##### 네트워크 분석 #####
+#########################
+
+tdm_network<-as.matrix(tdm)
+
+word.count_1 <- rowSums(tdm_network)
+word.order_1 <- order(word.count_1, decreasing=TRUE)
+freq.words_1 <- tdm_network[word.order_1[1:20], ]
+
+co.matrix_1 <- freq.words_1 %*% t(freq.words_1)
+
+write.xlsx(co.matrix_1, file="co_matrix.xlsx")
+
+
+
+
+#check<-as.data.frame(rownames(tdm[,]))
+
+
+
+
+
+#par(family="Apple SD Gothic Neo")
+qgraph(co.matrix_1, labels=rownames(co.matrix_1),
+       diag=FALSE, layout='spring', threshold=5,
+       edge.color='black', esize=20,
+       vsize=sqrt(diag(co.matrix_1))*1)
