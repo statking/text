@@ -1,0 +1,25 @@
+#JAVA JDK 설치 후
+
+install.packages(“rJava”)
+install.packages(“stringr”)
+install.packages(“hash”)
+install.packages(“tau”)
+install.packages(“Sejong”)
+install.packages(“RSQLite”)
+install.packages(“devtools”)
+install.packages(“vctrs”)
+
+library(rJava)
+library(stringr)
+library(hash)
+library(tau)
+library(Sejong)
+library(RSQLite)
+library(devtools)
+library(vctrs)
+
+
+
+#KoNLP 설치 후
+library(KoNLP)
+useSejongDic()
