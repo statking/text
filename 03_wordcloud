@@ -1,0 +1,53 @@
+############################# 
+# 단어 빈도분석과 Wordcloud #
+#############################
+
+dtm <- DocumentTermMatrix(corpus.pre, control = list(wordLengths =c(2,10)))
+
+tdm <- t(dtm)
+
+
+
+#문서와 단어 확인하기 (DTM)
+rownames(dtm[,]) #문서(행) 나열해보기
+colnames(dtm[,]) #단어(열) 나열해보기
+inspect(dtm[50:100, 0:100])
+
+#문서와 단어 확인하기 (TDM)
+rownames(tdm[,]) #문서(행) 나열해보기
+colnames(tdm[,]) #단어(열) 나열해보기
+inspect(tdm[50:100, 0:100])
+
+#단어 빈도 확인하기
+word.freq <- apply(dtm[,], 2, sum) #apply(x, 행/열, 함수), 행:1, 열:2
+
+#단어 높은 빈도순으로 정렬
+word.freq.sort <- sort(word.freq, decreasing =TRUE)
+word.freq.sort[1:100]
+
+#단어 누적 빈도 구하기
+word.freq.sum <-cumsum(word.freq.sort)
+word.freq.sum[1:100]
+
+#단어 비율 구하기
+word.freq.ratio <- word.freq.sum/word.freq.sum[length(word.freq.sum)]
+word.freq.ratio[1:100]
+
+#빈도가 높은 단어 저장하기
+write.xlsx(word.freq.sort, file="word_freq_person_1.xlsx")
+
+
+##### wordcloud 분석 #####
+wordcloud(names(word.freq), freq=word.freq, scale=c(5,1), rot.per = 0.1, min.freq = 5, max.words = 500, random.order = FALSE, colors = brewer.pal(10, "Dark2"))
+
+
+#워드클라우드에 색 넣기
+pal<-brewer.pal(8, "Dark2")
+
+
+
+v <- head(sort(slam::row_sums(tdm), decreasing = T),100) 
+wordcount <- data.frame(X=names(v),freq=v)
+
+
+wordcloud2(data=wordcount, fontFamily='나눔고딕 ExtraBold')
